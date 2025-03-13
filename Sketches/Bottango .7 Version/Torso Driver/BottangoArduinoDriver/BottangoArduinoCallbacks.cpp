@@ -3,23 +3,9 @@
 #include "src/Log.h"
 #include "src/Outgoing.h"
 #include "src/BottangoCore.h"
-#include <Adafruit_NeoPixel.h>
 
 
 
-// Which pin on the Arduino is connected to the NeoPixels?
-#define PIN        26 // Pin 26 on my custom board
-
-// How many NeoPixels are attached to the Arduino?
-#define NUMPIXELS 6 // Popular NeoPixel ring size
-
-// When setting up the NeoPixel library, we tell it how many pixels,
-// and which pin to use to send signals. Note that for older NeoPixel
-// strips you might need to change the third parameter -- see the
-// strandtest example for more information on possible values.
-Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRBW + NEO_KHZ800);
-
-#define DELAYVAL 50 // Time (in milliseconds) to pause between pixels
 
 namespace Callbacks
 {
@@ -198,18 +184,7 @@ namespace Callbacks
     void onColorCustomEventColorChanged(AbstractEffector *effector, byte newRed, byte newGreen, byte newBlue)
     {
         // example, set rgb LED on pins 3, 5, and 6 to given red, green, and blue colors (represented as a byte between 0 and 255)
-        char effectorIdentifier[9];
-        effector->getIdentifier(effectorIdentifier, 9);
-         if (strcmp(effectorIdentifier, "1") == 0)
-         {
-          for (int i=0; i<NUMPIXELS; i++){
-          pixels.setPixelColor(i, pixels.Color(newRed, newGreen, newBlue));
-          pixels.show();
-
-          }
-          delay(DELAYVAL);
-         }
-
+ 
         // code free support for addressable LED's (neopixel, etc. coming soon)
         // in the meanwhile, get support in the Bottango discord channel for "how to" info
     }

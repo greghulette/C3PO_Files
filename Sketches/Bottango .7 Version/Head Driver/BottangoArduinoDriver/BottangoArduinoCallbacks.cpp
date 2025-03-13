@@ -19,7 +19,6 @@
 // strandtest example for more information on possible values.
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRBW + NEO_KHZ800);
 
-#define DELAYVAL 50 // Time (in milliseconds) to pause between pixels
 
 namespace Callbacks
 {
@@ -200,14 +199,12 @@ namespace Callbacks
         // example, set rgb LED on pins 3, 5, and 6 to given red, green, and blue colors (represented as a byte between 0 and 255)
         char effectorIdentifier[9];
         effector->getIdentifier(effectorIdentifier, 9);
-         if (strcmp(effectorIdentifier, "1") == 0)
+         if (strcmp(effectorIdentifier, "1") == 0)  // 1 is the ID that was setup in the part in Bottango
          {
           for (int i=0; i<NUMPIXELS; i++){
           pixels.setPixelColor(i, pixels.Color(newRed, newGreen, newBlue));
           pixels.show();
-
           }
-          delay(DELAYVAL);
          }
 
         // code free support for addressable LED's (neopixel, etc. coming soon)
