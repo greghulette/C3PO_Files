@@ -1,9 +1,13 @@
+#include <SparkFun_Qwiic_MP3_Trigger_Arduino_Library.h>
+
+#include <cstring>
 #include "BottangoArduinoCallbacks.h"
 #include "src/AbstractEffector.h"
 #include "src/Log.h"
 #include "src/Outgoing.h"
 #include "src/BottangoCore.h"
 #include <Adafruit_NeoPixel.h>
+#include "src/Errors.h"
 
 
 
@@ -91,8 +95,13 @@ namespace Callbacks
     {
         // example, turn on built in LED if effector registered with identifier "1";
 
-        // char effectorIdentifier[9];
-        // effector->getIdentifier(effectorIdentifier, 9);
+        char effectorIdentifier[9];
+        effector->getIdentifier(effectorIdentifier, 9);
+
+      if ((strcmp(effectorIdentifier, "TorsoID") == 0) || (strcmp(effectorIdentifier, "RightID") == 0)  || (strcmp(effectorIdentifier, "LeftID") == 0) )
+        {
+          Error::reportError_InvalidPin();
+        }
 
         // if (strcmp(effectorIdentifier, "1") == 0)
         // {
@@ -183,22 +192,23 @@ namespace Callbacks
     void onTriggerCustomEventTriggered(AbstractEffector *effector)
     {
         // example, set led to a random brightness each trigger
-        // char effectorIdentifier[9];
-        // effector->getIdentifier(effectorIdentifier, 9);
+        char effectorIdentifier[9];
+        effector->getIdentifier(effectorIdentifier, 9);
 
-        // if (strcmp(effectorIdentifier, "myLight") == 0)
-        // {
-        //     pinMode(5, OUTPUT);
-        //     int brightness = random(0, 256);
-        //     analogWrite(5, brightness);
-        // }
+        if (strcmp(effectorIdentifier, "Hello") == 0)     // Hello must match the Identifier in Bottango
+        {
+            Serial1.print("v");                           // v is to set volume
+            Serial1.write(16);                            // 16 is the volume level set
+            Serial1.print("t");                           // specifies that a track is to be played
+            Serial1.write(1);                             // track to play 1-256
+      }
     }
-
     void onColorCustomEventColorChanged(AbstractEffector *effector, byte newRed, byte newGreen, byte newBlue)
     {
         // example, set rgb LED on pins 3, 5, and 6 to given red, green, and blue colors (represented as a byte between 0 and 255)
         char effectorIdentifier[9];
         effector->getIdentifier(effectorIdentifier, 9);
+         
          if (strcmp(effectorIdentifier, "1") == 0)  // 1 is the ID that was setup in the part in Bottango
          {
           for (int i=0; i<NUMPIXELS; i++){

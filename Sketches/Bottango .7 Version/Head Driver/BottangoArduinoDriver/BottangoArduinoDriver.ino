@@ -23,19 +23,13 @@ void processSerialCommand(String command) {
 }
 void setup()
 {
-  Serial.begin(115200);  // Initialize serial communication at 115200 baud rate
   Serial1.begin(SERIAL1_DEFAULT_BAUD_RATE,SERIAL_8N1,SERIAL1_RX_PIN,SERIAL1_TX_PIN);
   BottangoCore::bottangoSetup();
-  Serial.println("Bottango setup complete. Head Driver");
 }
 
 void loop()
 {
-  // Process serial input to trigger animations
-  if (Serial.available()) {
-    String command = Serial.readStringUntil('\n');  // Read the command from serial
-    processSerialCommand(command);  // Trigger corresponding action
-  }
+  // // Process serial input to trigger animations
   if (Serial1.available()) {
     String command = Serial1.readStringUntil('\r');  // Read the command from serial
     processSerialCommand(command);  // Trigger corresponding action
